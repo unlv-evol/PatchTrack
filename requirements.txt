@@ -1,0 +1,17 @@
+requests
+numpy
+pandas
+matplotlib
+bitarray
+python-magic
+unidiff
+mkdocs
+mkdocs-material
+mkdocstrings[python]
+pytest
+PyDriller
+plotly
+beautifulsoup4
+python-magic-bin
+ipython
+ipykernel
