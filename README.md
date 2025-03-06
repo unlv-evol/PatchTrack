@@ -1,5 +1,8 @@
 # PatchTrack: A Comprehensive Analysis of ChatGPT’s Influence on Pull Request Outcomes
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14978625.svg)](https://doi.org/10.5281/zenodo.14978625)
+
+
 ### Abstract (Short)
 The use of **large language models (LLMs)** like ChatGPT in software development has surged, yet their role in collaborative workflows, particularly in patch decision-making within pull requests (PRs), remains underexplored. This study addresses this gap by analyzing developers' ChatGPT interactions across **285 merged PRs**, capturing 645 ChatGPT-generated code snippets and 3,486 patches from these PRs, systematically comparing them to assess integration patterns. Using this data, we developed `PatchTrack`, a classification tool that determines whether ChatGPT-generated patches were applied, not applied, or not suggested, identifying 115 applied patches, 64 not applied, and 106 cases with no patch suggestions. Additionally, we examine 53 closed PRs to assess how ChatGPT influences PR rejection. `PatchTrack` achieves **97.5% accuracy**, **96.5% precision**, **96.7% recall**, and a **96.6% F1-score**.
 
