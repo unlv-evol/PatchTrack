@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Ogenrwot"
+  given-names: "Daniel"
+  orcid: "https://orcid.org/0000-0002-0133-8164"
+- family-names: "Businge"
+  given-names: "John"
+  orcid: "https://orcid.org/0000-0003-3206-7085"
+title: "Replication Package for PatchTrack: A Comprehensive Analysis of ChatGPT's Influence on Pull Request Outcomes"
+version: 2.0.4
+doi: 10.5281/zenodo.14978625
+date-released: 2025-03-6
+url: "https://github.com/evol-lab/PatchTrack"
