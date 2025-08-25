@@ -7,8 +7,8 @@ import os
 import re
 import pickle
 from collections import namedtuple
-import src.core.constant as constant
-import src.core.helpers as helpers
+from . import constant
+from . import helpers
 
 
 # global variables

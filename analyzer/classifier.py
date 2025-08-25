@@ -1,7 +1,7 @@
-import src.core.patch_loader as patchloader
-import src.core.source_loader as sourceloader
-import src.core.common as common
-import src.core.constant as constant
+from .  import patchLoader as patchloader
+from . import sourceLoader as sourceloader
+from . import common 
+from . import constant
 
 
 def process_patch(patch_path, dst_path, type_patch, file_ext):

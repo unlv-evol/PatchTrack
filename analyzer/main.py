@@ -24,8 +24,8 @@ class PatchTrack:
         self.data_dir = 'data/'
         
         # self.len_tokens = len(self.token_list)
-        self.main_dir_results= '../data/classified/' 
-        self.repo_dir_files ='../data/patches/'
+        self.main_dir_results= 'data/classified/' 
+        self.repo_dir_files ='data/patches/'
          
         self.verbose = True
         

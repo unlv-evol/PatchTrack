@@ -78,7 +78,7 @@ if __name__ == '__main__':
         print("Extracting DevChatGPT and extended datasets................")
         load.extract_zip('dataprep/allPullRequestSharings.zip', 'data/extracted')
         print("Extracting ChatGPT and pull request patches................")
-        load.extract_zip('dataprep/patches.zip', 'data/')
+        load.extract_zip('dataprep/patches.zip', 'data/patches')
         
         # create directory to keep classified pickle files
         print("Setting up directory for storing classification file")
