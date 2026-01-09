@@ -1,15 +1,3 @@
-# PatchTrack: A Comprehensive Analysis of ChatGPT’s Influence on Pull Request Outcomes
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14978624.svg)](https://doi.org/10.5281/zenodo.14978624)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/unlv-evol/PatchTrack/main)
-![GitHub License](https://img.shields.io/github/license/unlv-evol/PatchTrack)
-[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack.svg?type=shield&issueType=license)](https://app.fossa.com/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack?ref=badge_shield&issueType=license)
-[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack.svg?type=shield&issueType=security)](https://app.fossa.com/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack?ref=badge_shield&issueType=security)
-
-
-### Abstract (Short)
-
-The rapid adoption of **large language models (LLMs)** like ChatGPT has introduced new dynamics in software development, particularly within pull request workflows. While prior research has examined the quality of AI-generated code, little is known about how developers actually use these suggestions in real-world collaboration. We analyze **338 pull requests** from **255** GitHub repositories containing self-admitted ChatGPT usage, including **645** AI-generated snippets and **3,486** developer-authored patches. We introduce `PatchTrack`, a tool that classifies whether ChatGPT patches were applied, not applied, or not suggested, enabling fine-grained analysis of AI-assisted decisions. Full adoption of ChatGPT code is rare: the median integration rate was **25%**. A qualitative analysis of **89** pull requests with integrated patches revealed recurring patterns of *structural integration*, *selective extraction*, and *iterative refinement*, showing that developers typically treat ChatGPT’s output as a starting point rather than a final implementation.
 
 ## Directory Structure and Description
 ```
@@ -17,7 +5,7 @@ The rapid adoption of **large language models (LLMs)** like ChatGPT has introduc
 ├── LICENSE                     # The License for the tool - MIT License
 ├── PatchTrack.py               # Main entrypoint of the tool
 ├── README.md                   # Readme file to describe how the tool work
-├── RQ1_2_3_4                   # Contains all the results for RQ1, RQ2, RQ3 and RQ4
+├── RQ1_2_3_4                     # Contains all the results for RQ1, RQ2, RQ3 and RQ4
 ├── analyzer                    # Directory for core modules of the tool   
 │   ├── __init__.py
 │   ├── analysis.py             # Plotting the classification result
@@ -48,7 +36,7 @@ The rapid adoption of **large language models (LLMs)** like ChatGPT has introduc
 ```
 
 ## Setting up 
-To setup and test `PatchTrack` tool on your local computer, follow the steps below:
+To setup and test `PatchTrack` tool on your local computer, following the steps below:
 ### Get the code
 The easiest way is using the `git clone` command:
 
@@ -121,5 +109,3 @@ options:
 ```
 ### GitHub Tokens
 We use [GitHub tokens](https://github.com/settings/tokens) when extracting PR patches. This allows for higher rate limit because of the high number of requests to the GitHub API. Tokens can be set in the `tokens.txt` file seperated by a comman. The user can add as many tokens as needed. A minimal of 2 tokens can be used to safely execute code and to make sure that the rate limit is not reached for a token.
-## License
-This repository is MIT licensed. See the [LICENSE](./LICENSE) file for more information.
