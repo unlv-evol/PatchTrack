@@ -12,6 +12,5 @@ pytest
 PyDriller
 plotly
 beautifulsoup4
-python-magic-bin
 ipython
 ipykernel
