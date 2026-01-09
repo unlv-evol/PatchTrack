@@ -10,15 +10,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # Updated from v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5  # Updated from v4
         with:
           python-version: 3.x
-      - uses: actions/cache@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v4  # Updated from v2
         with:
-          key: ${{ github.ref }}
+          key: ${{ runner.os }}-mkdocs-${{ hashFiles('requirements.txt') }}
           path: .cache
-      - run: pip install mkdocs-material
-      - run: pip install pillow cairosvg
-      - run: pip install mkdocstrings[python]
-      - run: mkdocs gh-deploy --force
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material pillow cairosvg "mkdocstrings[python]"
+
+      - name: Deploy to GitHub Pages
+        run: |
+          mkdocs gh-deploy --force
