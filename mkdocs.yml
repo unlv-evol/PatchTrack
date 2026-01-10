@@ -40,13 +40,13 @@ extra:
 nav:
     - Overview: index.md
     - Getting Started: getting_started.md
-    # - Reference:
+    - Reference:
     #       - 'Source Loader': 'reference/source_loader.md'
     #       - 'Patch Loader': 'reference/patch_loader.md'
     #       - 'Data Extractor': 'reference/data_extractor.md'
     #       - 'Patch Extractor': 'reference/patch_extractor.md'
     #       - 'Classifier': 'reference/classifier.md'
-    #       - 'Common': 'reference/common.md'
+          - 'Common': 'reference/common.md'
 
 markdown_extensions:
   - pymdownx.highlight:
