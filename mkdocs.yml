@@ -15,13 +15,7 @@ theme:
     - content.code.copy
   language: en
   palette:
-    - scheme: slate 
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to light mode    
-      primary: teal
-      accent: lime
-
+    # This first entry is now the default (Light Mode)
     - scheme: default
       toggle:
         icon: material/toggle-switch
@@ -29,10 +23,18 @@ theme:
       primary: teal
       accent: purple 
 
+    # This second entry is the alternative (Dark Mode)
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode    
+      primary: teal
+      accent: lime
+
 extra:
   social:
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/unlv-evol/unlv-evol
+      link: https://github.com/unlv-evol/
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/unlv-evol
     - icon: fontawesome/brands/linkedin
@@ -41,12 +43,7 @@ nav:
     - Overview: index.md
     - Getting Started: getting_started.md
     - Reference:
-    #       - 'Source Loader': 'reference/source_loader.md'
-    #       - 'Patch Loader': 'reference/patch_loader.md'
-    #       - 'Data Extractor': 'reference/data_extractor.md'
-    #       - 'Patch Extractor': 'reference/patch_extractor.md'
-    #       - 'Classifier': 'reference/classifier.md'
-          - 'Common': 'reference/common.md'
+        - 'Common': 'reference/common.md'
 
 markdown_extensions:
   - pymdownx.highlight:
