@@ -127,7 +127,7 @@ PR-level aggregated results:
 
 ---
 
-## Related Modules
+## See Also
 
 - [Classifier](classifier.md) - Classifies individual patches
 - [Main](main.md) - Orchestrates the analysis pipeline
