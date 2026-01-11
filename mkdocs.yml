@@ -43,7 +43,15 @@ nav:
     - Overview: index.md
     - Getting Started: getting_started.md
     - Reference:
+        - 'Main Class': 'reference/main.md'
+        - 'Source Loader': 'reference/source_loader.md'
+        - 'Patch Loader': 'reference/patch_loader.md'
+        - 'Classifier': 'reference/classifier.md'
+        - 'Constant': 'reference/constant.md'
         - 'Common': 'reference/common.md'
+        - 'Helpers': 'reference/helpers.md'
+        - 'Analysis': 'reference/analysis.md'
+        - 'Aggregator': 'reference/aggregator.md'
 
 markdown_extensions:
   - pymdownx.highlight:

@@ -1,10 +1,11 @@
 """Source file loader for patch analysis.
 
 The SourceLoader class traverses source files, normalizes them (removes comments,
-collapses whitespace), and uses Bloom filters to efficiently query for matches
+collapses whitespace), and uses Bloom filters (Replaced with temporary array of hash tables) to efficiently query for matches
 against patches.
 
 Original version by Jiyong Jang, 2012
+Modified by Daniel Ogenrwot, 2024
 """
 
 import os
