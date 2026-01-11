@@ -7,6 +7,7 @@ The **Classifier** module provides core patch classification functions used by P
 ### Purpose
 
 This module:
+
 - **Processes** patches and source code with tokenization
 - **Matches** code hunks using hash-based comparison
 - **Calculates** similarity ratios between snippets
@@ -40,12 +41,14 @@ A "hunk" is a continuous block of added code in the patch. The classifier matche
 
 ### Hash-Based Matching
 Uses `sha256` hashes to compare:
+
 - **Source hashes**: Hash values of each line in ChatGPT code
 - **Patch hunks**: Added code blocks in PR patches
 - **Match**: When hashes align between source and patch
 
 ### Similarity Ratio
 Calculated using n-gram comparison:
+
 - **Range**: 0.0 (no match) to 1.0 (perfect match)
 - **Formula**: Matching n-grams / Total n-grams
 - **Usage**: Determines confidence in classification
@@ -56,18 +59,21 @@ Calculated using n-gram comparison:
 
 ### Patch Applied (PA)
 ✅ Conditions:
+
 - ChatGPT code appears in one or more PR hunks
 - High similarity ratio to patch content
 - Hashes match between source and patch
 
 ### Patch Not Applied (PN)
 ❌ Conditions:
+
 - ChatGPT code does NOT appear in any PR hunk
 - No matching hashes found
 - Similarity ratio is low
 
 ### Not Existing (NE)
 ⚠️ Conditions:
+
 - Required file doesn't exist in PR
 - ChatGPT code path cannot be processed
 
@@ -76,15 +82,18 @@ Calculated using n-gram comparison:
 ## Key Functions
 
 ### Core Processing
+
 - **`process_patch()`**: Load and traverse patch file with source code
 - **`get_ext()`**: Extract file extension from filename
 
 ### Matching Functions
+
 - **`find_hunk_matches()`**: Find hash-based matches between hunks
 - **`find_hunk_matches_w_important_hash()`**: Enhanced matching with priority hashes
 - **`calculate_match_percentage()`**: Calculate proportion of matched items
 
 ### Classification Functions
+
 - **`classify_hunk()`**: Classify a single hunk
 - **`classify_patch()`**: Aggregate hunk classifications to patch level
 - **`cal_similarity_ratio()`**: Calculate n-gram based similarity
@@ -195,7 +204,7 @@ print(f"Patch Classification: {final_class}")
 
 ---
 
-## Related Modules
+## See also
 
 - [Patch Loader](patch_loader.md) - Parses PR patches
 - [Source Loader](source_loader.md) - Parses ChatGPT code

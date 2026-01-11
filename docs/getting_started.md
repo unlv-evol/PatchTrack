@@ -20,7 +20,7 @@ source venv/bin/activate
 python PatchTrack.py --init
 ```
 
-That's it! You can now start using PatchTrack. Proceed to [Running the Tool](#running-the-tool) section.
+That's it! You can now start using PatchTrack. Proceed to [Running PatchTrack](#running-patchtrack) section.
 
 ---
 
@@ -364,6 +364,6 @@ Then restart the notebook kernel.
 
 ## Need Help?
 
-- 📖 See the [Reference Documentation](../reference/common.md)
+- 📖 See the [Reference Documentation](reference/main.md)
 - 🐛 Report issues on [GitHub](https://github.com/replication-pack/PatchTrack/issues)
 - 💬 Check the [README](../README.md) for more details

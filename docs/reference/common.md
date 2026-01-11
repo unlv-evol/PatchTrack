@@ -7,6 +7,7 @@ The **Common** module provides shared configuration and global settings used thr
 ### Purpose
 
 This module:
+
 - **Stores** global configuration variables
 - **Manages** n-gram size settings
 - **Provides** common utility constants
@@ -29,6 +30,7 @@ common.ngram_size = 4    # Compare 4-line blocks
 ```
 
 **Impact on Classification:**
+
 | N-gram Size | Speed | Precision | Use Case |
 |-----------|-------|-----------|----------|
 | 1 | Fast | Low | Quick scans |
@@ -36,7 +38,7 @@ common.ngram_size = 4    # Compare 4-line blocks
 | 4+ | Slow | High | Detailed analysis |
 
 !!! tip "Recommended"
-    Use n-gram size of **2-4** for most analysis. Larger values may miss partial matches.
+    Use n-gram size of **1-4** for most analysis. Larger values may miss partial matches.
 
 ---
 
@@ -106,12 +108,14 @@ N-gram Size 4: [(x,5,y,10), (y,10,z,x+y)]
 ## Best Practices
 
 ✅ **Do**
+
 - Set n-gram size once at initialization
 - Use consistent settings for all PRs in a batch
 - Document your choice in results metadata
 - Experiment to find optimal value for your data
 
 ❌ **Don't**
+
 - Change n-gram size during classification
 - Use values below 1 or above 10
 - Assume one setting works for all cases
@@ -178,7 +182,7 @@ Before running classification:
 
 ---
 
-## Related Modules
+## See Also
 
 - [Classifier](classifier.md) - Uses n-gram configuration
 - [Patch Loader](patch_loader.md) - Tokenizes based on n-grams

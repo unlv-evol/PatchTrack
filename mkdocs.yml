@@ -43,7 +43,7 @@ nav:
     - Overview: index.md
     - Getting Started: getting_started.md
     - Reference:
-        - 'Main Class': 'reference/main.md'
+        - 'Main Module': 'reference/main.md'
         - 'Source Loader': 'reference/source_loader.md'
         - 'Patch Loader': 'reference/patch_loader.md'
         - 'Classifier': 'reference/classifier.md'

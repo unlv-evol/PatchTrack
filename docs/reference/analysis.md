@@ -7,6 +7,7 @@ The **Analysis** module provides visualization and plotting functions for PatchT
 ### Purpose
 
 This module:
+
 - **Visualizes** classification distributions (PA, PN, NE, CC, ERROR)
 - **Generates** bar charts, pie charts, and other plots
 - **Creates** statistical summaries
@@ -37,12 +38,14 @@ ERROR                  █ 5%
 
 ### Repository Comparison
 Compares classification patterns across different repositories:
+
 - X-axis: Repository name
 - Y-axis: Count or percentage
 - Groups: Classification type
 
 ### Trend Analysis
 Tracks how patch application rates change:
+
 - Over time
 - Across project size ranges
 - By programming language
@@ -77,11 +80,13 @@ analysis.repo_comparison_bar(repo_data)
 ## Output Formats
 
 ### Display
+
 - **Interactive plots** in Jupyter notebooks
 - **Static images** saved to disk
 - **Console output** for quick analysis
 
 ### File Exports
+
 - PNG images for publications
 - CSV data for further analysis
 - JSON for programmatic access
@@ -187,12 +192,14 @@ Classification Distribution
 ## Tips & Best Practices
 
 ✅ **Do**
+
 - Use descriptive titles for charts
 - Include legends and axis labels
 - Export with high DPI for publication
 - Validate data before visualization
 
 ❌ **Don't**
+
 - Exceed 5-6 categories in one chart
 - Use 3D charts (hard to read)
 - Mix different metrics in one chart
@@ -200,7 +207,15 @@ Classification Distribution
 
 ---
 
-## Related Modules
+::: analyzer.analysis
+    handler: python
+    options:
+      show_root_heading: false
+      show_source: true
+      show_object_full_path: true
+      members_order: source
+
+## See Also
 
 - [Aggregator](aggregator.md) - Produces data for visualization
 - [Main](main.md) - Calls analysis after classification
