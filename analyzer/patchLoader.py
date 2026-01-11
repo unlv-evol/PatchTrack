@@ -4,6 +4,7 @@ The PatchLoader class loads and processes patch files (unified diff format),
 builds hash lists using n-grams, and tracks added/removed lines.
 
 Original version by Jiyong Jang, 2012
+Modified by Daniel Ogenrwot, 2024
 """
 
 import os

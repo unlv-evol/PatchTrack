@@ -1,6 +1,6 @@
-# Common
+# Helpers
 
-::: analyzer.common
+::: analyzer.helpers
     handler: python
     options:
       show_root_heading: false

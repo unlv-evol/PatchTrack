@@ -1,6 +1,6 @@
 # PatchTrack Documentation
 
-## Comprehensive Analysis of ChatGPT's Influence on Pull Request Outcomes
+Comprehensive Analysis of ChatGPT's Influence on Pull Request Outcomes
 
 ---
 

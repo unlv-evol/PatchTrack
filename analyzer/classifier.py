@@ -1,103 +1,98 @@
-from .  import patchLoader as patchloader
-from . import sourceLoader as sourceloader
-from . import common 
+"""Patch classifier helpers.
+
+This module contains helper functions used by the patch classification
+pipeline. The refactor preserves original logic but improves readability
+by adding type hints, docstrings, and removing commented-out code.
+"""
+
+from typing import Any, Dict, List, Tuple
+
+from . import patchLoader as patch_loader
+from . import sourceLoader as source_loader
+from . import common
 from . import constant
 
 
-def process_patch(patch_path, dst_path, type_patch, file_ext):
+def process_patch(patch_path: str, dst_path: str, type_patch: str, file_ext: str) -> Tuple[Any, Any]:
+    """Process a patch and its corresponding source traversal.
+
+    This wraps `PatchLoader.traverse` and `SourceLoader.traverse`, preserving
+    the original try/except logging behavior.
+
+    Args:
+        patch_path: Path to the patch file.
+        dst_path: Path to the destination/source files.
+        type_patch: Type of patch (e.g., buggy/fixed).
+        file_ext: File extension being processed.
+
+    Returns:
+        Tuple of (patch_loader_instance, source_loader_instance).
     """
-    processPatch
-    To process a patch
-    This is done before bein able to classify the patch
-    
-    @patchPath - the path where the patch file is stored
-    @dstPath - the path where the destination file is stored
-    @typePatch - the kind of patch we are dealing with, buggy or fixed
-    """
-     # reset ngram_size to 4
-#     common.ngram_size = 4
-    
-#     patch = patchloader.PatchLoader()
-#     npatch = patch.traverse(patchPath, typePatch, fileExt)
-
-#     source = sourceloader.SourceLoader()
-#     nmatch = source.traverse(dstPath, patch, fileExt)
-
-#     # reset ngram_size to 4
-# #     common.ngram_size = 4
-
-#     return patch, source
     common.ngram_size = constant.NGRAM_SIZE
-    patch = patchloader.PatchLoader()
+
+    patch = patch_loader.PatchLoader()
     try:
-        npatch = patch.traverse(patch_path, type_patch, file_ext)
+        _ = patch.traverse(patch_path, type_patch, file_ext)
     except Exception as e:
         print("Error traversing patch:....", e)
-    
-    source = sourceloader.SourceLoader()
+
+    source = source_loader.SourceLoader()
     try:
-        nmatch = source.traverse(dst_path, patch, file_ext)
+        _ = source.traverse(dst_path, patch, file_ext)
     except Exception as e:
         print("Error traversing source (variant)....", e)
 
     return patch, source
 
-def get_ext(file):
-    """
-    get_ext
-    Extract the extension of the a file
-    
-    @file - the file from which to extract the file
-    """
-    ext = file.split['.'][-1]
 
-def calculate_match_percentage(results, hashes):
-    matched_code = []
-    not_matched = []
+def get_ext(filename: str) -> str:
+    """Return the file extension for `filename`.
+
+    If no extension is present this returns an empty string.
+    """
+    parts = filename.rsplit('.', 1)
+    return parts[-1] if len(parts) == 2 else ''
+
+
+def calculate_match_percentage(results: Dict[Any, Dict[str, Any]], hashes: Dict[Any, Any]) -> float:
+    """Calculate percentage of matched items in `results`.
+
+    Args:
+        results: Mapping of items to a dict containing a boolean under key `'Match'`.
+        hashes: Mapping used to collect matched or unmatched items (kept for parity).
+
+    Returns:
+        Percentage (0-100) of matched items. Returns 0 if there are no items.
+    """
     total = 0
     matched = 0
 
     for h in results:
         total += 1
-        if results[h]['Match']:
+        if results[h].get('Match'):
             matched += 1
-            matched_code.append(hashes[h])
-        else:
-            not_matched.append(hashes[h])
-    if total!= 0:
-        return ((matched/total)*100)
-    else:
-        return 0
+    return (matched / total) * 100 if total != 0 else 0.0
 
 
-def find_hunk_matches(match_items, _type, important_hashes, source_hashes):
-    # Not called anywhere at the moment
+def find_hunk_matches(match_items: Dict[Any, Any], _type: str, important_hashes: List[Any], source_hashes: List[Tuple[Any, Any]]) -> Dict[Any, Any]:
+    """Find matches between hunks using hashed values.
+
+    Preserves original matching logic and return structure.
     """
-    find_hunk_matches
-    To find the different matches between two hunk using the hashed values
-    
-    @match_items
-    @_type
-    @important_hashes
-    @source_hashes
-    """
-
-    seq_matches = {} 
+    seq_matches: Dict[Any, Any] = {}
 
     for patch_nr in match_items:
-        seq_matches[patch_nr] = {}
-        seq_matches[patch_nr]['sequences'] = {}
-        seq_matches[patch_nr]['class'] = ''
+        seq_matches[patch_nr] = {'sequences': {}, 'class': ''}
         for patch_seq in match_items[patch_nr]:
+            seq_matches[patch_nr]['sequences'][patch_seq] = {
+                'count': 0,
+                'hash_list': list(match_items[patch_nr][patch_seq].keys())
+            }
 
-            seq_matches[patch_nr]['sequences'][patch_seq] = {}
-            seq_matches[patch_nr]['sequences'][patch_seq]['count'] = 0
-            seq_matches[patch_nr]['sequences'][patch_seq]['hash_list'] = list(match_items[patch_nr][patch_seq].keys())
-            
             for k in match_items[patch_nr][patch_seq]:
                 if match_items[patch_nr][patch_seq][k]:
                     seq_matches[patch_nr]['sequences'][patch_seq]['count'] += 1
-    
+
     match_bool = True
 
     for seq_nr in seq_matches:
@@ -105,201 +100,112 @@ def find_hunk_matches(match_items, _type, important_hashes, source_hashes):
             if seq_matches[seq_nr]['sequences'][seq]['count'] < 2:
                 match_bool = False
                 break
+
         _class = ''
-        
         if _type == 'MO':
-            if match_bool:
-                _class = _type
-            else:
-                _class = 'MC'
+            _class = _type if match_bool else 'MC'
         elif _type == 'PA':
-            if match_bool:
-                _class = _type
-            else:
-                _class = 'MC'
-                
-        seq_matches[seq_nr]['class']= _class        
-    
+            _class = _type if match_bool else 'MC'
+
+        seq_matches[seq_nr]['class'] = _class
+
     return seq_matches
 
 
-def classify_hunk(class_patch, class_buggy):
+def classify_hunk(class_patch: str, class_buggy: str) -> str:
+    """Classify a single hunk based on patch and buggy classifications.
     """
-    classify_hunk
-    To classify a hunk
-    
-    @class_patch
-    @class_buggy
-    """
-    
-    finalClass = ''
+    final_class = ''
     if class_buggy == 'MC' and class_patch == 'PA':
-        finalClass = 'PA'
+        final_class = 'PA'
     if class_buggy == 'PA' and class_patch == 'MC':
-        finalClass = 'PA'
+        final_class = 'PA'
     if class_buggy == 'MC' and class_patch == 'MC':
-        finalClass = 'PN'
-    if class_patch == '' and class_buggy !='':
-        finalClass = class_buggy
-    if class_patch != '' and class_buggy =='':
-        finalClass = class_patch
-    if class_patch == '' and class_buggy =='':
-        finalClass = 'PN'
-    return finalClass
+        final_class = 'PN'
+    if class_patch == '' and class_buggy != '':
+        final_class = class_buggy
+    if class_patch != '' and class_buggy == '':
+        final_class = class_patch
+    if class_patch == '' and class_buggy == '':
+        final_class = 'PN'
+    return final_class
 
 
-def classify_patch(hunk_classifications):
+def classify_patch(hunk_classifications: List[str]) -> str:
+    """Determine patch-level classification from hunk classifications.
     """
-    classify_patch
-    To classify a patch based on the hunks
-    
-    @hunk_classifications - the classifications for the different hunks in the .diff of a file changed in a PR
-    """
+    na_total = 0
+    ed_total = 0
 
-    NA_total = 0
-    ED_total = 0
-    
-    finalClass= ''
+    final_class = ''
     for i in range(len(hunk_classifications)):
-        if hunk_classifications[i] =='PA':
-            ED_total += 1
-        elif hunk_classifications[i] =='PN':
-            NA_total += 1
-    
-    if ED_total == 0:
-        finalClass = 'PN'
-    else:
-        finalClass='PA'
-            
-    return finalClass
+        if hunk_classifications[i] == 'PA':
+            ed_total += 1
+        elif hunk_classifications[i] == 'PN':
+            na_total += 1
+
+    final_class = 'PN' if ed_total == 0 else 'PA'
+    return final_class
 
 
-def find_hunk_matches_w_important_hash(match_items, _type, important_hashes, source_hashes):
+def find_hunk_matches_w_important_hash(match_items: Dict[Any, Any], _type: str, important_hashes: List[Any], source_hashes: List[Tuple[Any, Any]]) -> Dict[Any, Any]:
+    """Find hunk matches using important hashes feature.
+
+    Preserves original behavior and return structure.
     """
-    find_hunk_matches_w_important_hash
-    To find the different matches between two hunk using the hashed values and using the important hash feature
-    
-    @match_items
-    @_type
-    @important_hashes
-    @source_hashes
-    """
-
-    seq_matches = {} 
-    test = []
+    seq_matches: Dict[Any, Any] = {}
+    test: List[Any] = []
     for lines in important_hashes:
         for line in lines:
             for each in line:
                 for ngram, hash_list in source_hashes:
                     if each in ngram:
                         test.append(hash_list)
-    
-    found_important_hashes = {}
+
     important_hash_match = 0
-    total_important_hashes = len(important_hashes)
     for patch_nr in match_items:
         match_bool = False
-        seq_matches[patch_nr] = {}
-        seq_matches[patch_nr]['sequences'] = {}
-        seq_matches[patch_nr]['class'] = ''
+        seq_matches[patch_nr] = {'sequences': {}, 'class': ''}
         for patch_seq in match_items[patch_nr]:
-            seq_matches[patch_nr]['sequences'][patch_seq] = {}
-            seq_matches[patch_nr]['sequences'][patch_seq]['count'] = 0
-            seq_matches[patch_nr]['sequences'][patch_seq]['hash_list'] = list(match_items[patch_nr][patch_seq].keys())
-            
+            seq_matches[patch_nr]['sequences'][patch_seq] = {
+                'count': 0,
+                'hash_list': list(match_items[patch_nr][patch_seq].keys())
+            }
+
             if seq_matches[patch_nr]['sequences'][patch_seq]['hash_list'] in test:
                 seq_matches[patch_nr]['sequences'][patch_seq]['important'] = True
                 important_hash_match += 1
                 match_bool = True
             else:
                 seq_matches[patch_nr]['sequences'][patch_seq]['important'] = False
-                
+
             for k in match_items[patch_nr][patch_seq]:
                 if match_items[patch_nr][patch_seq][k]:
                     seq_matches[patch_nr]['sequences'][patch_seq]['count'] += 1
 
-        if match_bool:
-            seq_matches[patch_nr]['class'] = _type
-        else:
-            seq_matches[patch_nr]['class'] = 'MC'
+        seq_matches[patch_nr]['class'] = _type if match_bool else 'MC'
 
-    # if total_important_hashes != 0:       
-    #     important_hash_perc = (important_hash_match*100)/len(source_hashes) 
-    # print("IMPORTANT_HASH_PER: ", important_hash_perc) 
-    # pre = (important_hash_match / len(source_hashes)) * 100        
-    # print("Percentage: ", pre) 
-    # if test:
-    #     match_bool = False
-    # else:
-    #     match_bool = True
-        
-    # for i in seq_matches:
-    #     for j in seq_matches[i]['sequences']:
-    #         if test:
-    #             if seq_matches[i]['sequences'][j]['important'] and seq_matches[i]['sequences'][j]['count'] != 0:
-    #                 match_bool = True
-    #             else:
-    #                 if seq_matches[i]['sequences'][j]['count'] < 1:
-    #                     match_bool = False      
-    #         else:
-    #             if seq_matches[i]['sequences'][j]['count'] < 1:
-    #                 match_bool = False
-    #                 break
-
-        # _class = ''
-
-        # if _type == 'MO':
-        #     if match_bool:
-        #         _class = _type
-        #     else:
-        #         _class = 'MC'
-
-        # elif _type == 'PA':
-        #     if match_bool:
-        #         _class = _type
-        #     else:
-        #         _class = 'MC'
-                 
-        # seq_matches[i]['class']= _class 
-        
     return seq_matches
 
-def cal_similarity_ratio(source_hashes, added_lines_hashes):
 
-    count_matches = []
-    
+def cal_similarity_ratio(source_hashes: List[Tuple[Any, Any]], added_lines_hashes: List[List[List[Any]]]) -> float:
+    """Calculate similarity ratio between source hashes and added lines hashes.
+    """
+    count_matches: List[Any] = []
+
     for lines in added_lines_hashes:
         for line in lines:
             for each in line:
                 for ngram, hash_list in source_hashes:
                     if each == ngram:
-                        # print(hash_list)
-                        # print(each)
                         count_matches.append(ngram)
 
-    # count_matches = 0
-    # for item in source_hashes:
-    #     match = 0
-    #     for h in patch_hashes:   
-    #         if item[0] == patch_hashes[h]:
-    #             match = 1
-    #     if match == 1:
-    #   
-    #       count_matches += 1
-    s_hashes = []         
-    for ngram, hash_list in source_hashes:
-        # print(ngram)
-        s_hashes.append(ngram)
-                
+    s_hashes: List[Any] = [ngram for ngram, _ in source_hashes]
+
     try:
         unique_matches = list(set(count_matches))
         unique_source_hashes = list(set(s_hashes))
-        # print(len(unique_matches))
-        # print(len(unique_source_hashes))
-        per = (len(unique_matches) / len(unique_source_hashes)) * 100 
-        # if per == 100:
-        #     print(unique_matches)
-        #     print(unique_source_hashes)
+        per = (len(unique_matches) / len(unique_source_hashes)) * 100
         return per
-    except:
-        return 0
+    except Exception:
+        return 0.0
