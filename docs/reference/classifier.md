@@ -204,7 +204,7 @@ print(f"Patch Classification: {final_class}")
 
 ---
 
-## See also
+## See Also
 
 - [Patch Loader](patch_loader.md) - Parses PR patches
 - [Source Loader](source_loader.md) - Parses ChatGPT code
