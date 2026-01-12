@@ -127,46 +127,53 @@ def save_file(file: bytes, storage_dir: str, file_name: str) -> None:
         f.write(file)
 
 
-# File extension mapping for language detection
-_EXTENSION_MAP = {
-    'c': common.FileExt.C,
-    'h': common.FileExt.C,
-    'cpp': common.FileExt.C,
-    'java': common.FileExt.Java,
-    'cs': common.FileExt.Java,
-    'sh': common.FileExt.ShellScript,
-    'pl': common.FileExt.Perl,
-    'py': common.FileExt.Python,
-    'php': common.FileExt.PHP,
-    'rb': common.FileExt.Ruby,
-    'js': common.FileExt.JavaScript,
-    'jsx': common.FileExt.JavaScript,
-    'ts': common.FileExt.JavaScript,
-    'vue': common.FileExt.JavaScript,
-    'svelte': common.FileExt.JavaScript,
-    'scala': common.FileExt.Scala,
-    'yaml': common.FileExt.yaml,
-    'yml': common.FileExt.yaml,
-    'ipynb': common.FileExt.ipynb,
-    'json': common.FileExt.JSON,
-    'kt': common.FileExt.Kotlin,
-    'gradle': common.FileExt.gradle,
-    'gemfile': common.FileExt.GEMFILE,
-    'xml': common.FileExt.Xml,
-    'md': common.FileExt.markdown,
-    'go': common.FileExt.goland,
-    'css': common.FileExt.CSS,
-    'html': common.FileExt.html,
-    'fs': common.FileExt.Fsharp,
-    'regex': common.FileExt.REGEX,
-    'conf': common.FileExt.conf,
-    'swift': common.FileExt.SWIFT,
-    'rs': common.FileExt.RUST,
-    'sql': common.FileExt.SQL,
-    'tsx': common.FileExt.TSX,
-    'sol': common.FileExt.SOLIDITY,
-    'vb': common.FileExt.VB,
-}
+# File extension mapping for language detection (lazy initialized to avoid circular import)
+_EXTENSION_MAP = None
+
+def _get_extension_map():
+    """Get extension map, initializing on first use to avoid circular imports."""
+    global _EXTENSION_MAP
+    if _EXTENSION_MAP is None:
+        _EXTENSION_MAP = {
+            'c': common.FileExt.C,
+            'h': common.FileExt.C,
+            'cpp': common.FileExt.C,
+            'java': common.FileExt.Java,
+            'cs': common.FileExt.Java,
+            'sh': common.FileExt.ShellScript,
+            'pl': common.FileExt.Perl,
+            'py': common.FileExt.Python,
+            'php': common.FileExt.PHP,
+            'rb': common.FileExt.Ruby,
+            'js': common.FileExt.JavaScript,
+            'jsx': common.FileExt.JavaScript,
+            'ts': common.FileExt.JavaScript,
+            'vue': common.FileExt.JavaScript,
+            'svelte': common.FileExt.JavaScript,
+            'scala': common.FileExt.Scala,
+            'yaml': common.FileExt.yaml,
+            'yml': common.FileExt.yaml,
+            'ipynb': common.FileExt.ipynb,
+            'json': common.FileExt.JSON,
+            'kt': common.FileExt.Kotlin,
+            'gradle': common.FileExt.gradle,
+            'gemfile': common.FileExt.GEMFILE,
+            'xml': common.FileExt.Xml,
+            'md': common.FileExt.markdown,
+            'go': common.FileExt.goland,
+            'css': common.FileExt.CSS,
+            'html': common.FileExt.html,
+            'fs': common.FileExt.Fsharp,
+            'regex': common.FileExt.REGEX,
+            'conf': common.FileExt.conf,
+            'swift': common.FileExt.SWIFT,
+            'rs': common.FileExt.RUST,
+            'sql': common.FileExt.SQL,
+            'tsx': common.FileExt.TSX,
+            'sol': common.FileExt.SOLIDITY,
+            'vb': common.FileExt.VB,
+        }
+    return _EXTENSION_MAP
 
 _SPECIAL_FILES = {'requirements.txt', 'requirement.txt'}
 
@@ -186,7 +193,7 @@ def get_file_type(file_path: str) -> int:
         return common.FileExt.REQ_TXT
 
     ext = file_path.split('.')[-1].lower()
-    return _EXTENSION_MAP.get(ext, common.FileExt.Text)
+    return _get_extension_map().get(ext, common.FileExt.Text)
 
 def _preserve_newlines(match_text: str) -> str:
     """Preserve newlines in match by replacing with newline characters.
@@ -249,9 +256,9 @@ def remove_comment(source: str, file_ext: int) -> str:
 
     # Python and config files
     elif file_ext in [common.FileExt.Python, common.FileExt.conf]:
-        source = _extract_noncomments(source, common.PYTHON_REGEX)
-        source = _extract_noncomments(source, common.PYTHON_MULTILINE_1_REGEX)
-        source = _extract_noncomments(source, common.PYTHON_MULTILINE_2_REGEX)
+        source = _extract_noncomments(source, common.PY_REGEX)
+        source = _extract_noncomments(source, common.PY_MULTILINE_1_REGEX)
+        source = _extract_noncomments(source, common.PY_MULTILINE_2_REGEX)
 
     # Shell scripts
     elif file_ext == common.FileExt.ShellScript:
@@ -310,9 +317,9 @@ def remove_comment(source: str, file_ext: int) -> str:
             for line in cell['source']:
                 python_code += line if line.endswith('\n') else line + '\n'
 
-        source = _extract_noncomments(python_code, common.PYTHON_REGEX)
-        source = _extract_noncomments(source, common.PYTHON_MULTILINE_1_REGEX)
-        source = _extract_noncomments(source, common.PYTHON_MULTILINE_2_REGEX)
+        source = _extract_noncomments(python_code, common.PY_REGEX)
+        source = _extract_noncomments(source, common.PY_MULTILINE_1_REGEX)
+        source = _extract_noncomments(source, common.PY_MULTILINE_2_REGEX)
 
     # JSON
     elif file_ext == common.FileExt.JSON:
@@ -324,6 +331,12 @@ def remove_comment(source: str, file_ext: int) -> str:
         source = _extract_noncomments(source, common.XML_REGEX)
 
     return source
+
+
+# Backwards-compatible alias: some modules call `remove_comments`
+def remove_comments(source: str, file_ext: int) -> str:
+    """Alias for `remove_comment` to maintain backward compatibility."""
+    return remove_comment(source, file_ext)
 
 def timing(func):
     """Decorator to measure and print function execution time.

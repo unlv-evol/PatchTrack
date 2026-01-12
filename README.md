@@ -3,6 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14978624.svg)](https://doi.org/10.5281/zenodo.14978624)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/unlv-evol/PatchTrack/main)
 ![GitHub License](https://img.shields.io/github/license/unlv-evol/PatchTrack)
+[![Docs deployment](https://github.com/unlv-evol/PatchTrack/actions/workflows/doc-deploy.yaml/badge.svg)](https://github.com/unlv-evol/PatchTrack/actions/workflows/doc-deploy.yaml)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack.svg?type=shield&issueType=license)](https://app.fossa.com/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack.svg?type=shield&issueType=security)](https://app.fossa.com/projects/custom%2B46484%2Fgithub.com%2Funlv-evol%2FPatchTrack?ref=badge_shield&issueType=security)
 
